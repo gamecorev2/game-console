@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace GameCore
@@ -28,6 +29,8 @@ namespace GameCore
 
         public bool IsValidated => m_validated;
 
+        public string[] Commands => m_commands.Keys.ToArray();
+
         public GameConsole(bool addDefaultConverters = true)
         {
             if (addDefaultConverters)
@@ -48,8 +51,7 @@ namespace GameCore
             }
         }
 
-        public void RegisterCommand<T>(string name, T handler)
-            where T : Delegate
+        public void RegisterCommand<T>(string name, Action<T> handler)
         {
             if (m_commands.ContainsKey(name))
                 throw new CommandAlreadyRegisteredException();
